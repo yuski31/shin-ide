@@ -1,0 +1,55 @@
+{
+  "name": "web-ide",
+  "version": "1.0.0",
+  "description": "A comprehensive web-based IDE with terminal support for modern JavaScript frameworks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"pnpm dev:frontend\" \"pnpm dev:backend\"",
+    "dev:frontend": "cd frontend && pnpm dev",
+    "dev:backend": "cd backend && pnpm dev",
+    "build": "pnpm build:frontend && pnpm build:backend",
+    "build:frontend": "cd frontend && pnpm build",
+    "build:backend": "cd backend && pnpm build",
+    "start": "concurrently \"pnpm start:frontend\" \"pnpm start:backend\"",
+    "start:frontend": "cd frontend && pnpm preview",
+    "start:backend": "cd backend && pnpm start",
+    "test": "pnpm test:frontend && pnpm test:backend",
+    "test:frontend": "cd frontend && pnpm test",
+    "test:backend": "cd backend && pnpm test",
+    "test:watch": "concurrently \"pnpm test:frontend:watch\" \"pnpm test:backend:watch\"",
+    "test:frontend:watch": "cd frontend && pnpm test:watch",
+    "test:backend:watch": "cd backend && pnpm test:watch",
+    "lint": "pnpm lint:frontend && pnpm lint:backend",
+    "lint:frontend": "cd frontend && pnpm lint",
+    "lint:backend": "cd backend && pnpm lint",
+    "lint:fix": "pnpm lint:frontend:fix && pnpm lint:backend:fix",
+    "lint:frontend:fix": "cd frontend && pnpm lint:fix",
+    "lint:backend:fix": "cd backend && pnpm lint:fix",
+    "type-check": "pnpm type-check:frontend && pnpm type-check:backend",
+    "type-check:frontend": "cd frontend && pnpm type-check",
+    "type-check:backend": "cd backend && pnpm type-check",
+    "install:all": "pnpm install && cd frontend && pnpm install && cd ../backend && pnpm install",
+    "clean": "rimraf node_modules frontend/node_modules backend/node_modules frontend/dist backend/dist",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "db:migrate": "cd backend && pnpm db:migrate",
+    "db:seed": "cd backend && pnpm db:seed",
+    "db:reset": "cd backend && pnpm db:reset"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ]
+}

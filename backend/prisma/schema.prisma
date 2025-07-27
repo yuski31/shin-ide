@@ -1,0 +1,206 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  username    String   @unique
+  firstName   String
+  lastName    String
+  password    String
+  avatar      String?
+  role        UserRole @default(USER)
+  isActive    Boolean  @default(true)
+  lastLoginAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  ownedProjects    Project[]           @relation("ProjectOwner")
+  collaborations   ProjectCollaborator[]
+  terminals        Terminal[]
+  sessions         UserSession[]
+  
+  @@map("users")
+}
+
+model UserSession {
+  id           String   @id @default(cuid())
+  userId       String
+  refreshToken String   @unique
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("user_sessions")
+}
+
+model Project {
+  id          String            @id @default(cuid())
+  name        String
+  description String?
+  framework   ProjectFramework
+  template    String
+  ownerId     String
+  isPublic    Boolean           @default(false)
+  settings    Json              @default("{}")
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  // Relations
+  owner         User                  @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  collaborators ProjectCollaborator[]
+  files         File[]
+  terminals     Terminal[]
+  buildLogs     BuildLog[]
+  
+  @@map("projects")
+}
+
+model ProjectCollaborator {
+  id          String            @id @default(cuid())
+  projectId   String
+  userId      String
+  role        CollaboratorRole
+  permissions Json              @default("[]")
+  addedAt     DateTime          @default(now())
+  
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([projectId, userId])
+  @@map("project_collaborators")
+}
+
+model File {
+  id          String   @id @default(cuid())
+  name        String
+  path        String
+  type        FileType
+  size        Int?
+  content     String?
+  language    String?
+  isDirectory Boolean  @default(false)
+  parentId    String?
+  projectId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  project  Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  parent   File?   @relation("FileHierarchy", fields: [parentId], references: [id])
+  children File[]  @relation("FileHierarchy")
+  
+  @@unique([projectId, path])
+  @@map("files")
+}
+
+model Terminal {
+  id        String   @id @default(cuid())
+  projectId String
+  userId    String
+  pid       Int?
+  cwd       String   @default("/")
+  shell     String   @default("/bin/bash")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  
+  project  Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  commands TerminalCommand[]
+  
+  @@map("terminals")
+}
+
+model TerminalCommand {
+  id         String   @id @default(cuid())
+  terminalId String
+  command    String
+  output     String   @default("")
+  exitCode   Int?
+  duration   Int      @default(0)
+  timestamp  DateTime @default(now())
+  
+  terminal Terminal @relation(fields: [terminalId], references: [id], onDelete: Cascade)
+  
+  @@map("terminal_commands")
+}
+
+model ProjectTemplate {
+  id              String            @id @default(cuid())
+  name            String
+  description     String
+  framework       ProjectFramework
+  tags            String[]
+  thumbnail       String?
+  files           Json              @default("[]")
+  dependencies    Json              @default("{}")
+  devDependencies Json              @default("{}")
+  scripts         Json              @default("{}")
+  isOfficial      Boolean           @default(false)
+  downloadCount   Int               @default(0)
+  rating          Float             @default(0)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  
+  @@map("project_templates")
+}
+
+model BuildLog {
+  id        String     @id @default(cuid())
+  projectId String
+  command   String
+  output    String     @default("")
+  errors    String     @default("")
+  warnings  String     @default("")
+  status    BuildStatus @default(PENDING)
+  duration  Int?
+  startedAt DateTime   @default(now())
+  endedAt   DateTime?
+  
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  @@map("build_logs")
+}
+
+// Enums
+enum UserRole {
+  ADMIN
+  USER
+  GUEST
+}
+
+enum ProjectFramework {
+  REACT
+  VUE
+  NEXTJS
+  VANILLA
+}
+
+enum CollaboratorRole {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+enum FileType {
+  FILE
+  DIRECTORY
+}
+
+enum BuildStatus {
+  PENDING
+  RUNNING
+  SUCCESS
+  FAILED
+  CANCELLED
+}

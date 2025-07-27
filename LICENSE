@@ -1,0 +1,97 @@
+MIT License
+
+Copyright (c) 2025 SHIN IDE Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Third-Party Licenses
+
+This project includes third-party software components that are licensed under their respective terms:
+
+### Monaco Editor
+- License: MIT License
+- Copyright: Microsoft Corporation
+- Source: https://github.com/microsoft/monaco-editor
+
+### React
+- License: MIT License  
+- Copyright: Meta Platforms, Inc. and affiliates
+- Source: https://github.com/facebook/react
+
+### Express.js
+- License: MIT License
+- Copyright: TJ Holowaychuk and contributors
+- Source: https://github.com/expressjs/express
+
+### TypeScript
+- License: Apache License 2.0
+- Copyright: Microsoft Corporation
+- Source: https://github.com/microsoft/TypeScript
+
+### Prisma
+- License: Apache License 2.0
+- Copyright: Prisma Data, Inc.
+- Source: https://github.com/prisma/prisma
+
+### Socket.io
+- License: MIT License
+- Copyright: Guillermo Rauch and contributors
+- Source: https://github.com/socketio/socket.io
+
+### XTerm.js
+- License: MIT License
+- Copyright: The xterm.js authors
+- Source: https://github.com/xtermjs/xterm.js
+
+### Tailwind CSS
+- License: MIT License
+- Copyright: Tailwind Labs, Inc.
+- Source: https://github.com/tailwindlabs/tailwindcss
+
+### AI Provider SDKs
+- OpenAI SDK: MIT License
+- Anthropic SDK: MIT License
+- Google Generative AI SDK: Apache License 2.0
+- Various other AI provider SDKs under their respective licenses
+
+### WebContainer API
+- License: Proprietary (StackBlitz)
+- Source: https://webcontainer.io
+
+For a complete list of dependencies and their licenses, please refer to the package.json files in the respective directories and run `npm list --depth=0` in each package directory.
+
+## Attribution
+
+SHIN IDE is built upon the excellent work of the open-source community. We are grateful to all the maintainers and contributors of the libraries and tools that make this project possible.
+
+## Commercial Use
+
+This software is free for both personal and commercial use under the MIT License. However, please note that some AI provider services may require separate commercial licenses or have usage-based pricing. Please review the terms of service for each AI provider you choose to integrate.
+
+## Trademark Notice
+
+"SHIN IDE" is a trademark of the SHIN IDE Team. The use of this trademark is subject to our trademark policy.
+
+## Contact
+
+For licensing questions or commercial inquiries, please contact:
+- Email: legal@shinide.dev
+- Website: https://shinide.dev/legal
